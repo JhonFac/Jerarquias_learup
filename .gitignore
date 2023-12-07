@@ -1,0 +1,26 @@
+# .gitignore
+
+# Entorno virtual
+venv/
+env/
+
+# Archivos de configuración locales
+*.pyc
+*.pyo
+__pycache__/
+
+# Archivos temporales
+*.~*
+
+# Archivos de registro y directorios
+*.log
+logs/
+
+# Archivos de compilación
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Archivos de entorno
+.env

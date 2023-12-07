@@ -1,0 +1,28 @@
+# Jerarquias de empleados
+
+## Requisitos
+
+- Python (versión 10.10.7)
+- Django (versión 4.2.7)
+- Otros requisitos...
+
+## Configuración del Entorno de Desarrollo
+
+python -m venv venv
+source venv/bin/activate
+.\venv\Scripts\activate
+
+pip freeze > requirements.txt
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py runserver
+
+
+## como desplegar en Railway 
+
+https://dev.to/osahenru/using-railway-app-to-deploy-your-django-project-3ah1
+
+https://youtu.be/lyR78-zr2jI?si=KbVbywQKljKKDZNJ
