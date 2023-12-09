@@ -16,7 +16,6 @@ def crear_empleado(request):
         if form.is_valid():
             empleado = form.save()
             jerarquia_id = request.POST.get('jerarquia')
-            print(jerarquia_id)
             if jerarquia_id!='Seleccione...':
                 jerarquia = Jerarquia.objects.get(id=jerarquia_id)
                 LogJerarquia.objects.create(
@@ -66,8 +65,6 @@ def cambiar_jerarquias(request):
         return HttpResponse(f'<p class="success">Jerarquía cambiada exitosamente.</p>')
 
 
-
-
 def detail_employ(request, employ_id):
     jefe="Sin Jefe"
     employ_list = []
@@ -76,8 +73,6 @@ def detail_employ(request, employ_id):
     except Exception: 
         employ = None
 
-    print('validar jefe')
-
     try:
         log_jerarquia = LogJerarquia.objects.get(id_empleado=employ.id, estado=True)
 
@@ -85,19 +80,12 @@ def detail_employ(request, employ_id):
             logjerarquia__id_jerarquia__lt=log_jerarquia.id_jerarquia,
             logjerarquia__estado=True
         )
-
         jefe_jerarquia = log_jerarquia.id_jerarquia.id + 1
         jefe = Empleado.objects.filter(logjerarquia__id_jerarquia=jefe_jerarquia, logjerarquia__estado=True).first()
         nom_jefe= jefe.nombre
-    except LogJerarquia.DoesNotExist:
-        nom_jefe= jefe
-        employ_list= []
     except Exception:
         nom_jefe= jefe
-        employ_list= []
 
-
-    print(employ)
     hierarchy = Jerarquia.objects.all()
     return render(request, 'details.html', {
                       'employ': employ, 
