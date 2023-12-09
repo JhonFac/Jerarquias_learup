@@ -21,13 +21,7 @@
             <td>{{ employ.nombre }}</td>
             <td>{{ employ.correo }}</td>
             <td>{{ employ.telefono }}</td>
-            <td>
-                {% if employ.logjerarquia_set.first %}
-                {{ employ.logjerarquia_set.first.id_jerarquia.jerarquia }}
-                {% else %}
-                Sin Jerarquía
-                {% endif %}
-            </td>
+            <td>{{ employ.jerarquia_nombre }}</td>
             <td>{{ employ.estado }}</td>
             <td><a href="{% url 'detail employ' employ.id %}">Ver</a></td>
         </tr>

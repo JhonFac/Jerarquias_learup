@@ -35,9 +35,8 @@
                     <p class="text-muted">ID: {{ employ.id }}</p>
                     <p class="text-muted">Correo: {{ employ.correo }}</p>
                     <p class="text-muted">Teléfono: {{ employ.telefono }}</p>
-
                     {% if employ.logjerarquia_set.first %}
-                    <p class="text-muted">Jerarquía: {{ employ.logjerarquia_set.first.id_jerarquia.jerarquia }}
+                    <p class="text-muted">Jerarquía: {{ employ_hierarchys }}
                     </p>
                     {% else %}
                     <p class="text-muted">Sin Jerarquía</p>

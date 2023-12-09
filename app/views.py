@@ -73,6 +73,12 @@ def detail_employ(request, employ_id):
     employ_list = []
     try:
         employ = get_object_or_404(Empleado, id=employ_id)
+    except Exception: 
+        employ = None
+
+    print('validar jefe')
+
+    try:
         log_jerarquia = LogJerarquia.objects.get(id_empleado=employ.id, estado=True)
 
         employ_list = Empleado.objects.filter(
@@ -80,32 +86,16 @@ def detail_employ(request, employ_id):
             logjerarquia__estado=True
         )
 
-        for empleado in employ_list:
-            logjerarquia = empleado.logjerarquia_set.first()
-            print(f"ID: {empleado.id}, Nombre: {empleado.nombre}, Jerarquía: {logjerarquia.id_jerarquia.jerarquia}, ID_Jerarquía: {logjerarquia.id_jerarquia.id}, Estado: {logjerarquia.estado}")
-
-    except Exception:
-        employ = None
-
-
-
-    print('validar jefe')
-
-    try:
-        print(employ.id)
-        log_jerarquia = LogJerarquia.objects.get(id_empleado=employ.id, estado=True)
-        print(log_jerarquia.id_jerarquia.id)
-        jefe_jerarquia = log_jerarquia.id_jerarquia.id
-        print(jefe_jerarquia)
-        jefe_jerarquia_id = jefe_jerarquia + 1
-        print(jefe_jerarquia_id)
-        jefe = Empleado.objects.get(logjerarquia__id_jerarquia=jefe_jerarquia_id)
-        print(jefe)
+        jefe_jerarquia = log_jerarquia.id_jerarquia.id + 1
+        jefe = Empleado.objects.filter(logjerarquia__id_jerarquia=jefe_jerarquia, logjerarquia__estado=True).first()
         nom_jefe= jefe.nombre
     except LogJerarquia.DoesNotExist:
         nom_jefe= jefe
+        employ_list= []
     except Exception:
         nom_jefe= jefe
+        employ_list= []
+
 
     print(employ)
     hierarchy = Jerarquia.objects.all()
@@ -113,12 +103,31 @@ def detail_employ(request, employ_id):
                       'employ': employ, 
                       'nom_jefe': nom_jefe, 
                       'employ_list': employ_list, 
+                      'employ_hierarchys': log_jerarquia.id_jerarquia.jerarquia, 
                       'hierarchys': hierarchy
                       }
                   )
 
 def index(request):
     employs = Empleado.objects.all()
-    return render(request, 'list_employees.html', {'employs': employs})
+    employ_details = []
+
+    for employ in employs:
+        try:
+            log_jerarquia = LogJerarquia.objects.get(id_empleado=employ.id, estado=True)
+            jerarquia_nombre = log_jerarquia.id_jerarquia.jerarquia
+        except LogJerarquia.DoesNotExist:
+            jerarquia_nombre = 'Sin Jerarquía'
+
+        employ_details.append({
+            'id': employ.id,
+            'nombre': employ.nombre,
+            'correo': employ.correo,
+            'telefono': employ.telefono,
+            'jerarquia_nombre': jerarquia_nombre,
+            'estado': employ.estado,
+        })
+
+    return render(request, 'list_employees.html', {'employs': employ_details})
 
 
