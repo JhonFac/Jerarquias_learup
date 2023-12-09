@@ -1,10 +1,13 @@
 # Jerarquias de empleados
 
+## Explicacion del proyecto
+
+Se realizan 3 tablas relacionadas donde la tabla `LogJerarquia` guarda los cambios de de jerarquia o puesto de trabajo que tiene el empleado con esto se puede saber, en que puesto de trabajo estan y tambn quien es su jefe directo en caso de tenerlo y cuales personas tiene a cargo tenieniendo en cuenta la posicion o "id" de la tabla `Jerarquia`
+
 ## Requisitos
 
 - Python (versión 10.10.7)
 - Django (versión 4.2.7)
-- Otros requisitos...
 
 ## Configuración del Entorno de Desarrollo
 
@@ -13,16 +16,39 @@ source venv/bin/activate
 .\venv\Scripts\activate
 
 pip freeze > requirements.txt
-
 pip install -r requirements.txt
 
 python manage.py migrate
-
 python manage.py runserver
 
 
-## como desplegar en Railway 
+## Estructura de datos
 
-https://dev.to/osahenru/using-railway-app-to-deploy-your-django-project-3ah1
 
-https://youtu.be/lyR78-zr2jI?si=KbVbywQKljKKDZNJ
+1. **Jerarquia:**
+   - **Campos:**
+     - `jerarquia`: Un campo CharField que almacena el nombre de la jerarquía.
+     - `area`: Un campo CharField que almacena el nombre del área asociada a la jerarquía.
+
+2. **Empleado:**
+   - **Campos:**
+     - `nombre`: Un campo CharField que almacena el nombre del empleado.
+     - `correo`: Un campo EmailField que almacena la dirección de correo electrónico del empleado.
+     - `telefono`: Un campo CharField que almacena el número de teléfono del empleado.
+     - `area`: Un campo CharField que almacena el nombre del área asociada al empleado.
+     - `created_at`: Un campo DateTimeField que almacena la fecha y hora de creación del registro.
+     - `estado`: Un campo BooleanField que almacena el estado del empleado (activo o inactivo).
+
+3. **LogJerarquia:**
+   - **Campos:**
+     - `id_empleado`: Una clave externa (ForeignKey) que se relaciona con el modelo Empleado, indicando el empleado asociado al registro de jerarquía.
+     - `id_jerarquia`: Una clave externa (ForeignKey) que se relaciona con el modelo Jerarquia, indicando la jerarquía asociada al registro.
+     - `created_at`: Un campo DateTimeField que almacena la fecha y hora de creación del registro.
+     - `estado`: Un campo BooleanField que almacena el estado del registro (activo o inactivo).
+
+Esta estructura define relaciones entre los modelos. La tabla `LogJerarquia` mantiene un historial de las jerarquías asignadas a los empleados en diferentes momentos. Cada registro en `LogJerarquia` tiene una relación con un empleado y una jerarquía específicos.
+
+En resumen, estos modelos forman una estructura de base de datos que puede ser utilizada para almacenar información sobre jerarquías, empleados y el historial de cambios en las jerarquías asignadas a los empleados a lo largo del tiempo.
+
+
+

@@ -1,0 +1,23 @@
+<!-- detalle_empleado.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card text-center">
+
+
+    <div class="card-header text-muted">
+        <h3>Lista de Jerarquias</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card-body text-start">
+                    {% for hierarchy in hierarchys %}
+                    <p class="text-muted">{{ hierarchy.jerarquia }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

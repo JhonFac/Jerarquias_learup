@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Detalles del Empleado</h1>
+<table class="table">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Jerarquía</th>
+            <th>Estado</th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    <tbody class="table-light">
+        {% for employ in employs %}
+        <tr>
+            <td>{{ employ.id }}</td>
+            <td>{{ employ.nombre }}</td>
+            <td>{{ employ.correo }}</td>
+            <td>{{ employ.telefono }}</td>
+            <td>
+                {% if employ.logjerarquia_set.first %}
+                {{ employ.logjerarquia_set.first.id_jerarquia.jerarquia }}
+                {% else %}
+                Sin Jerarquía
+                {% endif %}
+            </td>
+            <td>{{ employ.estado }}</td>
+            <td><a href="{% url 'detail employ' employ.id %}">Ver</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
